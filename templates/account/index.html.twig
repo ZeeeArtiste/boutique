@@ -1,119 +1,142 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Mon compte{% endblock %}
-
 {% block content %}
-
-
 <div class="container my-5">
-    <h1>Mon Compte</h1>
-    <p>Bienvenue {{app.user.firstname}} dans votre espace :</p>
-    <div class="row gutters-sm">
+  <h1>Mon Compte
+  </h1>
+  <p>Bienvenue {{app.user.firstname}} dans votre espace :
+  </p>
+  <div class="row gutters-sm">
     <div class="col-md-4 mb-3">
-        <div class="card">
+      <div class="card">
         <div class="card-body">
-            <div class="d-flex flex-column align-items-center text-center">
+          <div class="d-flex flex-column align-items-center text-center">
             <img src="/assets/img/om.png" alt="Admin" class="img-fluid" width="100" height="100">
-            <h4 class="mt-3"> {{app.user.firstname}} {{app.user.lastname}}</h4>
+            <h4 class="mt-3"> {{app.user.firstname}} {{app.user.lastname}}
+            </h4>
             <div class="d-flex mt-3">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-success me-2 btn-sm" href="{{path('admin')}}">
-                        <i class="bi bi-lock"></i>
-                        BackOffice
-                    </a>
-                {% endif %}
-                <a class="btn btn-danger btn-sm" href="{{path('app_logout')}}">
-                    <i class="bi bi-box-arrow-right"></i>
-                    Se déconnecter
-                </a>
+              {% if is_granted('ROLE_ADMIN') %}
+              <a class="btn btn-success me-2 btn-sm" href="{{path('admin')}}">
+                <i class="bi bi-lock">
+                </i>
+                BackOffice
+              </a>
+              {% endif %}
+              <a class="btn btn-danger btn-sm" href="{{path('app_logout')}}">
+                <i class="bi bi-box-arrow-right">
+                </i>
+                Se déconnecter
+              </a>
             </div>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
     <div class="col-md-8">
-        <div class="card mb-3">
+      <div class="card mb-3">
         <div class="card-body">
-            <div class="row">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Mon identité</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                    <p>{{app.user.firstname}} {{app.user.lastname}}</p>
-                </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Mon identité
+              </h6>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Email</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                    <p>{{app.user.email}}</p>
-                </div>
+            <div class="col-sm-9 text-secondary">
+              <p>{{app.user.firstname}} {{app.user.lastname}}
+              </p>
             </div>
-            <hr>
-            <div class="row">
-                <h6 class="mt-5 mb-2">Mes dernières commandes :</h6>
-                {% if lastOrders | length == 0 %}
-                    <p>Pas de commande,
-                        <a href="{{path('account')}}">cliquez ici</a>
-                    </p>
-                {% else %}
-                <table class="table fs-6">
-                    <thead>
-                        <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Ref</th>
-                            <th scope="col">Statut</th>
-                            <th scope="col">Produits</th>
-                            <th scope="col">total</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for order in  lastOrders %}
-                        <tr>
-                            <th scope="row">{{order.createdAt|date('d/m/Y')}}</th>
-                            <td><span class="badge bg-secondary">{{order.reference}}</span></td>
-                            <td>
-                                {% if order.state == 1 %}
-                                Paiement accepté
-                                {% elseif order.state == 2 %}
-                                Préparation en cours
-                                {% elseif order.state == 3 %}
-                                Livraison en cours
-                                {% endif %}
-                            </td>
-                            <td>{{order.orderDetails|length}}</td>		
-                            <td>{{ ((order.carrierPrice + order.getTotal) / 100) | number_format(2, ',', ',')}}€</td>
-                            <td>
-                                <a class="btn btn-success" href="{{path('account_order_show', {'reference':order.reference})}}">
-                                    <i class="fa-solid fa-eye fa-xs"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Email
+              </h6>
             </div>
-            {% endif %}
-            <div class="my-5 d-flex justify-content-evenly w-100">
-                <a href="{{path('account_address')}}" class="btn btn-success btn-sm">
-                <i class="bi bi-geo-alt"></i>
-                Mes addresses
-                </a>
-                <a href="{{path('account_order')}}" class="btn btn-success btn-sm">
-                <i class="bi bi-inbox"></i>
-                Mes commandes
-                </a>
-                <a href="{{path('account_password')}}" class="btn btn-danger btn-sm">
-                <i class="bi bi-incognito"></i>
-                Modifier mon mot de passe
-                </a>
+            <div class="col-sm-9 text-secondary">
+              <p>{{app.user.email}}
+              </p>
             </div>
+          </div>
+          <hr>
+          <div class="row">
+            <h6 class="mt-5 mb-2">Mes dernières commandes :
+            </h6>
+            {% if lastOrders | length == 0 %}
+            <p>Pas de commande,
+              <a href="{{path('account')}}">cliquez ici
+              </a>
+            </p>
+            {% else %}
+            <table class="table fs-6">
+              <thead>
+                <tr>
+                  <th scope="col">Date
+                  </th>
+                  <th scope="col">Ref
+                  </th>
+                  <th scope="col">Statut
+                  </th>
+                  <th scope="col">Produits
+                  </th>
+                  <th scope="col">total
+                  </th>
+                  <th scope="col">
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in  lastOrders %}
+                <tr>
+                  <th scope="row">{{order.createdAt|date('d/m/Y')}}
+                  </th>
+                  <td>
+                    <span class="badge bg-secondary">{{order.reference}}
+                    </span>
+                  </td>
+                  <td>
+                    {% if order.state == 1 %}
+                    Paiement accepté
+                    {% elseif order.state == 2 %}
+                    Préparation en cours
+                    {% elseif order.state == 3 %}
+                    Livraison en cours
+                    {% endif %}
+                  </td>
+                  <td>{{order.orderDetails|length}}
+                  </td>		
+                  <td>{{ ((order.carrierPrice + order.getTotal) / 100) | number_format(2, ',', ',')}}€
+                  </td>
+                  <td>
+                    <a class="btn btn-success" href="{{path('account_order_show', {'reference':order.reference})}}">
+                      <i class="fa-solid fa-eye fa-xs">
+                      </i>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+          <div class="my-5 d-flex justify-content-evenly w-100">
+            <a href="{{path('account_address')}}" class="btn btn-success btn-sm">
+              <i class="bi bi-geo-alt">
+              </i>
+              Mes addresses
+            </a>
+            <a href="{{path('account_order')}}" class="btn btn-success btn-sm">
+              <i class="bi bi-inbox">
+              </i>
+              Mes commandes
+            </a>
+            <a href="{{path('account_password')}}" class="btn btn-danger btn-sm">
+              <i class="bi bi-incognito">
+              </i>
+              Modifier mon mot de passe
+            </a>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-    </div>
+  </div>
 </div>
 {% endblock %}
