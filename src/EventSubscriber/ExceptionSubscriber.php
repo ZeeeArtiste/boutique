@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ExceptionSubscriber implements EventSubscriberInterface
@@ -21,13 +22,15 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private $userPasswordHasherInterface;
     private $entityManager;
     private $requestStack;
+    private $appKernel;
 
 
-    public function __construct(UserPasswordHasherInterface $userPasswordHasherInterface, EntityManagerInterface $entityManager, RequestStack $requestStack)
+    public function __construct(UserPasswordHasherInterface $userPasswordHasherInterface, EntityManagerInterface $entityManager, RequestStack $requestStack,KernelInterface $appKernel)
     {
         $this->userPasswordHasherInterface = $userPasswordHasherInterface;
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
+        $this->appKernel = $appKernel;
     }
 
         public static function getSubscribedEvents()
@@ -52,7 +55,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
                 if($file instanceof UploadedFile) {
                 $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
-                $file->move('uploads', $filename);
+                $file->move($this->appKernel->getProjectDir().
+                                "/public/uploads/", $filename);
                 $entity->getImages()[$i]->setPath($filename);
                 $this->entityManager->persist(($entity));
                 $this->entityManager->flush();
