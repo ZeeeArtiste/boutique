@@ -50,18 +50,20 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
         if ($entity instanceof Product) 
         {
-            for ($i=0; $i <count($entity->getImages()) ; $i++) { 
-                $file = $entity->getImages()[$i]->getUploadFiles();
 
+            for ($i=0; $i <(count($entity->getImages())) ; $i++) { 
+                $file = $entity->getImages()[$i]->getUploadFiles();
+                
                 if($file instanceof UploadedFile) {
-                $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
-                $file->move($this->appKernel->getProjectDir().
-                                "/public/uploads/", $filename);
-                $entity->getImages()[$i]->setPath($filename);
-                $this->entityManager->persist(($entity));
-                $this->entityManager->flush();
+                    $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+                    $entity->getImages()[$i]->setPath($filename);
+                    $file->move($this->appKernel->getProjectDir().
+                    "/public/uploads/", $filename);
+                }
+                
             }
-            }
+            $this->entityManager->persist(($entity));
+            $this->entityManager->flush();
         }
     }
                     
