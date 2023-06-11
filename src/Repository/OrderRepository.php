@@ -35,6 +35,7 @@ class OrderRepository extends ServiceEntityRepository
     public function findLast()
     {
         return $this->createQueryBuilder('o')
+        ->andWhere('o.state > 0')
         ->orderBy('o.createdAt', 'DESC')
         ->setMaxResults(3) 
         ->getQuery()
