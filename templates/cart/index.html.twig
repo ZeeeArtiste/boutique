@@ -21,7 +21,7 @@
             <tr>
                 {% for product in cart %}
                 <th scope="row">
-                <img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" style="height:75px"></br>
+                <img src="/uploads/{{product.product.images[0]}}" alt="{{product.product.name}}" style="height:75px"></br>
                 </th>
                 <td>{{product.product.name}}</br>
                 {{product.product.subtitle}}

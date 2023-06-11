@@ -42,7 +42,7 @@ use Symfony\Component\Routing\Annotation\Route;
                         'unit_amount' => $product->getPrice(),
                         'product_data' => [
                             'name' => $product->getProduct(),
-                            'images' => [$YOUR_DOMAIN . "/uploads/" . $product_objetcs->getIllustration()],
+                            'images' => [$YOUR_DOMAIN . "/uploads/" . $product_objetcs->getImages()[0]],
                         ],
                     ],
                     'quantity' => $product->getQuantity(),
