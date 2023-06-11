@@ -1,0 +1,141 @@
+{% extends "base.html.twig" %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+{% block content %} 
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            {% for key, header in headers %}
+                <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="{{key}}"
+                {% if key == 0 %}
+                    class="active"
+                {% endif %}>
+                </li>
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner">
+            {% for key,header in headers %}   
+                <div class="carousel-item {% if key == 0 %}active {% endif %}">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <img class="img-fluid" src="/uploads/{{header.illustration}}" alt="">
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left align-self-center">
+                                    <h1 class="h1 text-success">{{header.title}}</h1>
+                                    <p>
+                                    {{header.content}}
+                                    </p>
+                                    <a class="btn btn-lg btn-success" href="{{header.btnUrl}}" role="button">
+                                        {{header.btnTitle}}
+                                        <i class="fa-solid fa-arrow-right fa-xs"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+
+
+    <!-- Start Categories of The Month -->
+    <section class="container py-5">
+        <div class="row text-center pt-3">
+            <div class="col-lg-6 m-auto">
+                <h2 class="h1">Catégories avec le plus de succès :</h2>
+                <p>
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            {% for cat in category %}
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="/uploads/{{cat.illustration}}" class="rounded-circle img-fluid border"></a>
+                <h5 class="text-center mt-3 mb-3">{{cat.name}}</h5>
+                <p class="text-center">
+                    <a class="btn btn-success" href="{{path('products',{ 'slug' : cat.slug })}}">
+                        <i class="bi bi-cart-check"></i>
+                        Voir en boutique
+                    </a>
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- End Categories of The Month -->
+
+    <!-- Start Featured Product -->
+    <section class="bg-light">
+        <div class="container py-5">
+            <div class="row text-center py-3">
+                <div class="col-lg-6 m-auto">
+                    <h2 class="h1">Produits phares :</h2>
+                    <p>
+                        Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident.
+                    </p>
+                </div>
+            </div>
+            <div class="row" id="carousel-related-product">
+                {% for product in products %}
+                    <div class="p-2 pb-3">
+                        {% include "product/single_product.html.twig" %}                  
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- End Featured Product -->
+{% endblock %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$('#carousel-related-product').slick({
+    infinite: true,
+    arrows: true,
+    slidesToShow: 4,
+    slidesToScroll: 3,
+    dots: true,
+    responsive: [{
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 3
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 3
+            }
+        }
+    ]
+});
+$(document).ready(function() {
+    const star_rating_width = $('.fill-ratings span').width();
+    $('.star-ratings').width(star_rating_width);
+});
+</script>
+{% endblock %}

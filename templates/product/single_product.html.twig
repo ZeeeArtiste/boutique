@@ -1,0 +1,23 @@
+<div class="product-wap card rounded-0">
+	<div class="card rounded-0">
+		<img class="card-img rounded-0 img-fluid" src="/uploads/{{ (product.images[0]) }}">
+		<div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+			<ul class="list-unstyled">
+				<li><a class="btn btn-success text-white mt-2" href="{{path('product', {'slug' : product.slug})}}"><i class="far fa-eye"></i></a></li>
+				<li><a class="btn btn-success text-white mt-2" href="{{path('add_to_cart', {'id' : product.id})}}"><i class="fas fa-cart-plus"></i></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="card-body" style="height:150px">
+		<a href="{{ path('product', { 'slug' : product.slug }) }}" class="h3 text-decoration-none">{{product.name}}</a>
+		<div class="star-ratings mx-auto">
+			<div class="fill-ratings text-warning" style="width: {{product.totalRating*20}}%;">
+				<span>★★★★★</span>
+			</div>
+			<div class="empty-ratings">
+				<span>★★★★★</span>
+			</div>
+		</div>
+		<p class="text-center mb-0">{{ (product.price / 100) | number_format(2, ',', '.') }} €</p>
+	</div>
+</div>

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreuf paiment
+{% endblock %}
+
+{% block content %}
+	<h2>Erreur de commande</h2>
+	<p>
+		Bonjour
+		{{order.user.firstname}}<br>
+		La commande numéro
+		{{order.reference}}
+		a eu un pb de connexion, nous venons d'envoyer un mail à
+		{{order.user.email}}.
+		<hr>
+	</p>
+	<hr>
+	Pour suivre votre commande rdv dans votre
+	<a href="{{path('order')}}">Réessayer</a>
+{% endblock %}
+

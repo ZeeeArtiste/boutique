@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié
+{% endblock %}
+
+{% block content %}
+	<div class="container my-5">
+		{% for message in app.flashes('notice') %}
+			<div class="alert alert-info">{{message}}</div>
+		{% endfor %}
+		<form method="post">
+			<h1 class="h3 mb-3 font-weight-normal">Rénitialiser mon mot de passe</h1>
+			<label for="inputEmail">E-mail</label>
+			<input type="email" value="" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+		</br>
+		<button class="btn btn-success" type="submit">
+			Valider
+		</button>
+	</form>
+</div>{% endblock %}
+
