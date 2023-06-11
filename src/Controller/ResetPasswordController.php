@@ -38,7 +38,7 @@ class ResetPasswordController extends AbstractController
             $this->entityManager->persist($resetPassword);
              $this->entityManager->flush();
 
-             $domain = "http://polar-depths-70199.herokuapp.com";
+             $domain = "http://omboutiquederensy.herokuapp.com";
              //envoyer email evec lien pour maj
              $url= $this->generateUrl('update_password', [
                  'token'=>$resetPassword->getToken()
