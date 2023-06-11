@@ -62,8 +62,6 @@
             </h6>
             {% if lastOrders | length == 0 %}
             <p>Pas de commande,
-              <a href="{{path('account')}}">cliquez ici
-              </a>
             </p>
             {% else %}
             <table class="table fs-6">
@@ -115,8 +113,8 @@
                 {% endfor %}
               </tbody>
             </table>
-          </div>
           {% endif %}
+          </div>
           <div class="my-5 d-flex justify-content-evenly w-100">
             <a href="{{path('account_address')}}" class="btn btn-success btn-sm">
               <i class="bi bi-geo-alt">
