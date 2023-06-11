@@ -31,6 +31,7 @@ class ProductController extends AbstractController
         $search=new Search();
         $form=$this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
+        $category ="";
 
         if($slug){
             $category = $this->entityManager->getRepository(Category::class)->findOneBySlug($slug);
@@ -50,6 +51,7 @@ class ProductController extends AbstractController
         
         return $this->render('product/index.html.twig',[
             'products'=>$products,
+            "category"=>$category,
             'form'=>$form->createView()
         ]);
     }

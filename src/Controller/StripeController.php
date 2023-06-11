@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
         $this->entityManager = $entityManager;
     }
     #[Route(path: '/commande/create-session/{reference}', name: 'stripe_create_session')]
-        public function index(EntityManagerInterface $entityManager, Cart $cart, $reference)
+        public function index(EntityManagerInterface $entityManager, $reference)
         {
             $product_for_stripe = [];
             $YOUR_DOMAIN = 'http://omboutiquederensy.herokuapp.com';

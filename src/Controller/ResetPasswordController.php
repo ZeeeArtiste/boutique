@@ -44,7 +44,7 @@ class ResetPasswordController extends AbstractController
                  'token'=>$resetPassword->getToken()
              ]);
              $content ="Bonjour". $user->getFirstname().", voici le lien pour rénitialiser votre mot de passe 🔐 : ";
-             $content.="<a href='$domain.$url'>cliquez ici</a>";
+             $content.="<a href='$domain$url'>cliquez ici</a>";
             $mail=new Mail();
             $mail->send($user->getEmail(), $user->getFirstname().' '. $user->getLastname(), 'Rénitialiser mon mot de passe', $content);
             $this->addFlash('notice', 'Mail de rénitialisation envoyée 💌');

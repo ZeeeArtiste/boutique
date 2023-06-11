@@ -46,7 +46,7 @@ class RegisterController extends AbstractController
                 $content = 'Petit message pour vous prévenir que vous êtes maintenant inscris chez nous ! 😉';
                 $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur notre boutique 👕', $content);
 
-                $notification = 'Inscription ok !';
+                $notification = 'Inscription ok ! 😎';
 
 
            }else{

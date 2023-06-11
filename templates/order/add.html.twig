@@ -51,7 +51,8 @@
             </div>
         </div>
 	</div>
-    <a href="{{ path('stripe_create_session', {'reference' : reference }) }}" id="checkout-button" class="btn btn-success btn-block mt-3">Payer
+    <a href="{{ path('stripe_create_session', {'reference' : reference }) }}" id="checkout-button" class="btn btn-success btn-block mt-3">
+    Payer
     {{ (total / 100 + (carrier.price)/100) | number_format(2, ',', '.') }}€</a>
 </div>
 {% endblock %}
