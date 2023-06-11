@@ -20,20 +20,26 @@ class ContactType extends AbstractType
                 'attr'=>[
                 'placeholder'=>'Saisir votre nom'
                 ]
-            ])
+             ])
             ->add('Prenom', TextType:: class, [
             'label' => 'Votre prénom',
             'attr' => [
                 'placeholder' => 'Saisir votre prénom'
             ]
-        ])
+            ])
             ->add('E-mail', EmailType::class, [
                 'label'=>'Votre e-mail',
             'attr' => [
                 'placeholder' => 'Saisir votre e-mail'
             ]
             ])
-            ->add('Content', TextareaType::class, [
+             ->add('subject', TextType:: class, [
+            'label' => 'Sujet',
+            'attr' => [
+                'placeholder' => 'Pourquoi vous nous contacter'
+            ]
+            ])
+            ->add('message', TextareaType::class, [
                 'label'=>'Votre message',
             'attr' => [
                 'placeholder' => 'Saisir votre message'

@@ -3,25 +3,25 @@
 {% block title %}Nous contacter{% endblock %}
 
 {% block content %}
-<h2>Nous contacter</h2>
-{% for message in app.flashes('notice') %}
-	<div class"alert alert-info">{{message}}</div>
+<div class="container my-5">
+	<h1 class="mb-3">Nous contacter</h1>
+	{% for message in app.flashes('notice') %}
+		<div class="alert alert-info">{{message}}</div>
+	{% endfor %}
 
-{% endfor %}
+	<div class="row ">
+	<div class="col-md-8">{{form(form)}}</div>
+	<div class="col-md-4 text-center">
 
-<div class="row ">
-<div class="col-md-8">{{form(form)}}</div>
-<div class="col-md-4 text-center">
+	<strong>OM</strong>
+	<hr>
+	02 35 55 55 55 </br>
+	77 route de Paris 76015 Roubaix</br>
 
-<strong>DD'store</strong>
-<hr>
-02 35 55 55 55 </br>
-77 route de ton cul 76160 la daronne</br>
+	dd@dd.dd
+	</div>
 
-dd@dd.dd
+	</div>
 </div>
-
-</div>
-
 
 {% endblock %}
