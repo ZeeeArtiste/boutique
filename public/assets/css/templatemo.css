@@ -453,3 +453,8 @@ div {
   display: block;
   z-index: 0;
 }
+
+.slick-prev:before,
+.slick-next:before {
+  color: #0097d7 !important;
+}

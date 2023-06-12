@@ -32,10 +32,12 @@ class OrderRepository extends ServiceEntityRepository
         ->getResult();
     }
 
-    public function findLast()
+    public function findLast($user)
     {
         return $this->createQueryBuilder('o')
         ->andWhere('o.state > 0')
+        ->andWhere('o.user = :user')
+        ->setParameter('user', $user)
         ->orderBy('o.createdAt', 'DESC')
         ->setMaxResults(3) 
         ->getQuery()

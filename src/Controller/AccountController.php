@@ -20,7 +20,7 @@ class AccountController extends AbstractController
     #[Route(path: '/compte', name: 'account')]
     public function index(): Response
     {
-        $lastOrders = $this->entityManager->getRepository(Order::class)->findLast();
+        $lastOrders = $this->entityManager->getRepository(Order::class)->findLast($this->getUser());
         return $this->render('account/index.html.twig',[
             'lastOrders'=>$lastOrders
         ]);

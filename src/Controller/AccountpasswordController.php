@@ -36,9 +36,9 @@ class AccountpasswordController extends AbstractController
 
                 $user->setPassword($password);
                 $this->entityManager->flush();
-                $notification="Mot de passe mis à jour !";
+                $notification="Mot de passe mis à jour ! 😁";
            }else {
-               $notification="Votre mot de passe actuel n'est pas le bon !";
+               $notification="Votre mot de passe actuel n'est pas le bon ! 😅";
            }
         }
         return $this->render('account/password.html.twig',[

@@ -61,7 +61,7 @@
             <h6 class="mt-5 mb-2">Mes dernières commandes :
             </h6>
             {% if lastOrders | length == 0 %}
-            <p>Pas de commande,
+            <p>Pas de commande 😣
             </p>
             {% else %}
             <table class="table fs-6">
@@ -69,9 +69,9 @@
                 <tr>
                   <th scope="col">Date
                   </th>
-                  <th scope="col">Ref
+                  <th scope="col"><span class="d-none d-sm-block">Ref</span>
                   </th>
-                  <th scope="col">Statut
+                  <th scope="col"><span class="d-none d-sm-block">Statut</span>
                   </th>
                   <th scope="col">Produits
                   </th>
@@ -86,11 +86,12 @@
                 <tr>
                   <th scope="row">{{order.createdAt|date('d/m/Y')}}
                   </th>
-                  <td>
-                    <span class="badge bg-secondary">{{order.reference}}
+                  <td >
+                    <span class="d-none d-sm-block"><span class="badge bg-secondary">{{order.reference}}</span>
                     </span>
                   </td>
                   <td>
+                  <span class="d-none d-sm-block">
                     {% if order.state == 1 %}
                     Paiement accepté
                     {% elseif order.state == 2 %}
@@ -98,6 +99,7 @@
                     {% elseif order.state == 3 %}
                     Livraison en cours
                     {% endif %}
+                    </span>
                   </td>
                   <td>{{order.orderDetails|length}}
                   </td>		
@@ -115,13 +117,13 @@
             </table>
           {% endif %}
           </div>
-          <div class="my-5 d-flex justify-content-evenly w-100">
-            <a href="{{path('account_address')}}" class="btn btn-success btn-sm">
+          <div class="my-5 d-flex justify-content-evenly w-100 flex-wrap">
+            <a href="{{path('account_address')}}" class="btn btn-success btn-sm mb-2">
               <i class="bi bi-geo-alt">
               </i>
               Mes addresses
             </a>
-            <a href="{{path('account_order')}}" class="btn btn-success btn-sm">
+            <a href="{{path('account_order')}}" class="btn btn-success btn-sm  mb-2">
               <i class="bi bi-inbox">
               </i>
               Mes commandes

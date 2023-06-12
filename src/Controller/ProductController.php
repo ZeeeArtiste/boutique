@@ -71,16 +71,17 @@ class ProductController extends AbstractController
             if(!$this->getUser()){
                 return $this->redirectToRoute("app_login");
             }
-        $review->setRating($form->getData()->getRating());
-        $review->setCreatedAt(new DateTimeImmutable('now'));
-        $review->setCreatedBy($this->getUser());
-        $review->setProduct($product);
+            $review->setRating($form->getData()->getRating());
+            //dd($review);
+            $review->setCreatedAt(new DateTimeImmutable('now'));
+            $review->setCreatedBy($this->getUser());
+            $review->setProduct($product);
 
-        $product->setTotalRating(($product->getTotalRating()*(count($product->getReviews()) == 0 ? 1 : count($product->getReviews())) + $review->getRating()) / (count($product->getReviews()) == 0 ? 1 : count($product->getReviews())+1));
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($review);
-        $this->entityManager->flush();
-        return $this->redirectToRoute('product', ['slug'=>$slug, '_fragment'=>'reviews']);
+            $product->setTotalRating(($product->getTotalRating()*(count($product->getReviews()) == 0 ? 1 : count($product->getReviews())) + $review->getRating()) / (count($product->getReviews()) == 0 ? 1 : count($product->getReviews())+1));
+            $this->entityManager->persist($product);
+            $this->entityManager->persist($review);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('product', ['slug'=>$slug, '_fragment'=>'reviews']);
         }
 
         if(!$product)

@@ -18,7 +18,7 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()&&$form->isValid()) {
-            $this->addFlash('notice', 'Merci de nous avoir contacté, nous vous répondrons le plus vite possible !.');
+            $this->addFlash('notice', 'Merci de nous avoir contacté, nous vous répondrons le plus vite possible ! 😎');
 
         }
         return $this->render('contact/index.html.twig',[
