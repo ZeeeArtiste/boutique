@@ -31,4 +31,4 @@ RUN mkdir -p /var/www
 RUN chown -R www-data:www-data /var/www
 RUN mkdir -p /var/www/.composer
 RUN chown -R www-data:www-data /var/www/.composer
-WORKDIR /var/www/project/
+WORKDIR /var/www/html
