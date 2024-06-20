@@ -19,8 +19,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     intl
 # COPY build/php/opcache.ini /usr/local/etc/php/conf.d/
 # COPY build/php/custom.ini /usr/local/etc/php/conf.d/
+WORKDIR /var/www/html
+COPY --chown=www-data:www-data project /var/www/html
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-RUN composer self-update 1.9.0
+RUN composer install --no-scripts --no-interaction --optimize-autoloader
 RUN wget --no-check-certificate https://phar.phpunit.de/phpunit-6.5.3.phar && \
     mv phpunit*.phar phpunit.phar && \
     chmod +x phpunit.phar && \
@@ -31,4 +34,3 @@ RUN mkdir -p /var/www
 RUN chown -R www-data:www-data /var/www
 RUN mkdir -p /var/www/.composer
 RUN chown -R www-data:www-data /var/www/.composer
-WORKDIR /var/www/html

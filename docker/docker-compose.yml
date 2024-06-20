@@ -1,16 +1,4 @@
 services:
-  php:
-    build:
-      context: ./php
-      dockerfile: Dockerfile
-    volumes:
-      - ../project:/var/www/html
-    environment:
-      - APP_ENV=dev
-      - APP_DEBUG=1
-    networks:
-      - symfony
-
   nginx:
     build:
       context: ./nginx
@@ -34,6 +22,20 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - symfony
+
+  php:
+    build:
+      context: ..
+      dockerfile: docker/php/Dockerfile
+    # volumes:
+    #   - ../project:/var/www/html
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+    networks:
+      - symfony
+    depends_on:
+      - db
 
   phpmyadmin:
     image: phpmyadmin:latest
