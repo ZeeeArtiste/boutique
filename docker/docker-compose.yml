@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../project/public/assets:/var/www/html/public/assets
+      - ../project/public/uploads:/var/www/html/public/uploads
     ports:
       - 8000:80
     networks:
