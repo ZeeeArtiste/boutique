@@ -1,13 +1,13 @@
 
 ###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/public/uploads/
-/var/
-/vendor/
+/project/.env.local
+/project/.env.local.php
+/project/.env.*.local
+/project/config/secrets/prod/prod.decrypt.private.php
+/project/public/bundles/
+/project/public/uploads/
+/project/var/
+/project/vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -16,12 +16,12 @@
 ###< symfony/phpunit-bridge ###
 
 ###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
+/project/phpunit.xml
+/project/.phpunit.result.cache
 ###< phpunit/phpunit ###
 
 ###> phpstan/phpstan ###
-phpstan.neon
+/project/phpstan.neon
 ###< phpstan/phpstan ###
 
-/deployment/db/db_data
+/docker/db/db_data

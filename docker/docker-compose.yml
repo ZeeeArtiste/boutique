@@ -5,7 +5,7 @@ services:
       context: ./php
       dockerfile: Dockerfile
     volumes:
-      - ../:/var/www/html
+      - ../project/:/var/www/html
     environment:
       - APP_ENV=dev
       - APP_DEBUG=1
@@ -16,8 +16,6 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    volumes:
-      - ../:/var/www/html:cached
     ports:
       - 8000:80
     networks:
