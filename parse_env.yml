@@ -1,0 +1,34 @@
+---
+- name: Load environment variables from .env and .env.prod files
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Read .env file content
+      slurp:
+        src: .env
+      register: env_file
+
+    - name: Convert .env content to dictionary
+      set_fact:
+        env_vars: "{{ dict(env_file.content | b64decode | split('\n') | select('match', '(.+)=(.+)') | map('regex_search', '(.+)=(.+)', '\\1', '\\2') | list) }}"
+
+    - name: Read .env.prod file content
+      slurp:
+        src: .env.prod
+      register: env_prod_file
+
+    - name: Convert .env.prod content to dictionary
+      set_fact:
+        env_prod_vars: "{{ dict(env_prod_file.content | b64decode | split('\n') | select('match', '(.+)=(.+)') | map('regex_search', '(.+)=(.+)', '\\1', '\\2') | list) }}"
+
+    - name: Set environment variables
+      set_fact:
+        ACCESS_KEY: "{{ env_vars.ACCESS_KEY }}"
+        SECRET_KEY: "{{ env_vars.SECRET_KEY }}"
+        MYSQL_ROOT_PASSWORD: "{{ env_prod_vars.MYSQL_ROOT_PASSWORD }}"
+        MYSQL_DATABASE: "{{ env_prod_vars.MYSQL_DATABASE }}"
+        MYSQL_USER: "{{ env_prod_vars.MYSQL_USER }}"
+        MYSQL_PASSWORD: "{{ env_prod_vars.MYSQL_PASSWORD }}"
+        APP_ENV: "{{ env_prod_vars.APP_ENV }}"
+        APP_DEBUG: "{{ env_prod_vars.APP_DEBUG }}"
+        PMA_HOST: "{{ env_prod_vars.PMA_HOST }}"

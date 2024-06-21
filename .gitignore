@@ -24,3 +24,11 @@
 ###< phpstan/phpstan ###
 
 /docker/db/db_data
+
+myKey.pem
+.env
+.terraform
+terraform.tfstate.backup
+terraform.tfstate
+.terraform.lock.hcl
+.DS_Store

@@ -1,0 +1,196 @@
+---
+# - name: Parse .env file
+#   import_playbook: parse_env.yml
+
+- name: Compress project folder
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Compress directory project
+      archive:
+        path: ./project
+        dest: ./project.tgz
+
+    - name: Compress directory db
+      archive:
+        path: ./docker/db
+        dest: ./docker/db.tgz
+
+- name: Copy files to Script
+  hosts: tag_Name_Script
+  become: true
+
+  tasks:
+    - name: Copy Project
+      copy:
+        src: ./project.tgz
+        dest: .
+
+    - name: Uncompress directory project
+      unarchive:
+        src: ./project.tgz
+        dest: .
+
+    - name: Copy php
+      copy:
+        src: ./docker/php
+        dest: .
+
+    - name: This command will change the working directory to somedir/
+      command: ls
+      register: hello
+
+    - debug: msg="{{ hello.stdout }}"
+
+- name: Copy files to HTTP
+  hosts: tag_Name_HTTP
+  become: true
+
+  tasks:
+    - name: Copy
+      copy:
+        src: ./docker/nginx
+        dest: .
+
+    - name: Copy Project
+      copy:
+        src: ./project.tgz
+        dest: .
+
+    - name: Uncompress directory project
+      unarchive:
+        src: ./project.tgz
+        dest: .
+    - name: This command will change the working directory to somedir/
+      command: ls
+      register: hello
+
+    - debug: msg="{{ hello.stdout }}"
+
+- name: Copy files to DB
+  hosts: tag_Name_DB
+  become: true
+
+  tasks:
+    - name: Copy
+      copy:
+        src: ./docker/db.tgz
+        dest: .
+
+    - name: Uncompress directory DB
+      unarchive:
+        src: ./docker/db.tgz
+        dest: .
+
+    - name: This command will change the working directory to somedir/
+      command: ls
+      register: hello
+
+    - debug: msg="{{ hello.stdout }}"
+
+- name: Deploy Nginx with Docker
+  hosts: tag_Name_HTTP
+  become: true
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker Compose is installed
+      apt:
+        name: docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Build Nginx image
+      community.docker.docker_image:
+        name: nginx_custom
+        source: build
+        build:
+          path: ./nginx
+        state: present
+
+    - name: Run Nginx container
+      community.docker.docker_container:
+        name: nginx
+        image: nginx_custom
+        state: started
+        volumes:
+          - ./project/public/assets:/var/www/html/public/assets
+          - ./project/public/uploads:/var/www/html/public/uploads
+        ports:
+          - "8000:80"
+
+- name: Deploy DB with Docker
+  hosts: tag_Name_DB
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker Compose is installed
+      apt:
+        name: docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Run MariaDB container
+      community.docker.docker_container:
+        name: db
+        image: mariadb:latest
+        state: started
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony
+        ports:
+          - "3306:3306"
+        volumes:
+          - ./db/db_data:/var/lib/mysql
+          - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+- name: Deploy PHP with Docker
+  hosts: tag_Name_Script
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker Compose is installed
+      apt:
+        name: docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Build PHP image
+      community.docker.docker_image:
+        name: php_custom
+        source: build
+        build:
+          path: ./php
+
+    - name: Run PHP container
+      community.docker.docker_container:
+        name: php
+        image: php_custom
+        state: started
+        env:
+          APP_ENV: dev
+          APP_DEBUG: 1
+        depends_on:
+          - db
