@@ -22,6 +22,11 @@
   become: true
 
   tasks:
+    - name: Copy php
+      copy:
+        src: ./docker/php
+        dest: .
+
     - name: Copy Project
       copy:
         src: ./project.tgz
@@ -31,17 +36,6 @@
       unarchive:
         src: ./project.tgz
         dest: .
-
-    - name: Copy php
-      copy:
-        src: ./docker/php
-        dest: .
-
-    - name: This command will change the working directory to somedir/
-      command: ls
-      register: hello
-
-    - debug: msg="{{ hello.stdout }}"
 
 - name: Copy files to HTTP
   hosts: tag_Name_HTTP
@@ -62,11 +56,6 @@
       unarchive:
         src: ./project.tgz
         dest: .
-    - name: This command will change the working directory to somedir/
-      command: ls
-      register: hello
-
-    - debug: msg="{{ hello.stdout }}"
 
 - name: Copy files to DB
   hosts: tag_Name_DB
@@ -82,12 +71,6 @@
       unarchive:
         src: ./docker/db.tgz
         dest: .
-
-    - name: This command will change the working directory to somedir/
-      command: ls
-      register: hello
-
-    - debug: msg="{{ hello.stdout }}"
 
 - name: Deploy Nginx with Docker
   hosts: tag_Name_HTTP
@@ -182,7 +165,8 @@
         name: php_custom
         source: build
         build:
-          path: ./php
+          path: ./
+          dockerfile: php/Dockerfile
 
     - name: Run PHP container
       community.docker.docker_container:
@@ -191,6 +175,4 @@
         state: started
         env:
           APP_ENV: dev
-          APP_DEBUG: 1
-        depends_on:
-          - db
+          APP_DEBUG: "1"

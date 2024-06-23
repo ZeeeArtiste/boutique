@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # COPY build/php/opcache.ini /usr/local/etc/php/conf.d/
 # COPY build/php/custom.ini /usr/local/etc/php/conf.d/
 WORKDIR /var/www/html
-COPY --chown=www-data:www-data ../project /var/www/html
+COPY --chown=www-data:www-data ./project /var/www/html
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 RUN composer install --no-scripts --no-interaction --optimize-autoloader
