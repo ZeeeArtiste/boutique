@@ -21,7 +21,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # COPY build/php/custom.ini /usr/local/etc/php/conf.d/
 WORKDIR /var/www/html
 COPY --chown=www-data:www-data ./project /var/www/html
+
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 ENV COMPOSER_ALLOW_SUPERUSER=1
+
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 RUN composer install --no-scripts --no-interaction --optimize-autoloader
 RUN wget --no-check-certificate https://phar.phpunit.de/phpunit-6.5.3.phar && \
