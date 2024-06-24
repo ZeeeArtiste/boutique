@@ -1,4 +1,4 @@
 project/vendor/
 project/var/
-project/public/assets/
-project/public/uploads/
+# project/public/assets/
+# project/public/uploads/
