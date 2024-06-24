@@ -23,6 +23,8 @@ WORKDIR /var/www/html
 COPY --chown=www-data:www-data ./project /var/www/html
 
 ARG DATABASE_URL
+ARG APP_ENV
+ENV APP_ENV=${APP_ENV}
 ENV DATABASE_URL=${DATABASE_URL}
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
