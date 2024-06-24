@@ -1,12 +1,10 @@
-server_names_hash_bucket_size 128;
-
 upstream php-upstream {
-    server {{ server }}:9000;
+    server php:9000;
 }
 
 server {
     listen 80;
-    server_name {{ server_name }};
+    server_name localhost;
     root /var/www/html/public;
 
     location / {
@@ -16,7 +14,7 @@ server {
     location @rewriteapp {
         rewrite ^(.*)$ /index.php/$1 last;
     }
-    
+
     client_max_body_size 200M;
 
     location ~ ^/index.php(/|$) {

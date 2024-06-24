@@ -2,7 +2,7 @@ services:
   nginx:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     volumes:
       - ../project/public/assets:/var/www/html/public/assets
       - ../project/public/uploads:/var/www/html/public/uploads
@@ -29,12 +29,12 @@ services:
   php:
     build:
       context: ..
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/php/Dockerfile.dev
     # volumes:
     #   - ../project:/var/www/html
     environment:
       - APP_ENV=dev
-      - DATABASE_URL=mysql://symfony:symfony@127.0.0.1:3306/symfony
+      - DATABASE_URL=mysql://symfony:symfony@db:3306/symfony
     networks:
       - symfony
     depends_on:
